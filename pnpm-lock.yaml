@@ -234,6 +234,9 @@ importers:
       '@vitejs/plugin-vue-jsx':
         specifier: ^3.1.0
         version: 3.1.0(vite@5.1.4(@types/node@20.19.23)(sass@1.93.2)(terser@5.44.0))(vue@3.5.12(typescript@5.3.3))
+      '@vue/tsconfig':
+        specifier: ^0.8.1
+        version: 0.8.1(typescript@5.3.3)(vue@3.5.12(typescript@5.3.3))
       autoprefixer:
         specifier: ^10.4.17
         version: 10.4.21(postcss@8.5.6)
@@ -2287,6 +2290,17 @@ packages:
 
   '@vue/shared@3.5.22':
     resolution: {integrity: sha512-F4yc6palwq3TT0u+FYf0Ns4Tfl9GRFURDN2gWG7L1ecIaS/4fCIuFOjMTnCyjsu/OK6vaDKLCrGAa+KvvH+h4w==}
+
+  '@vue/tsconfig@0.8.1':
+    resolution: {integrity: sha512-aK7feIWPXFSUhsCP9PFqPyFOcz4ENkb8hZ2pneL6m2UjCkccvaOhC/5KCKluuBufvp2KzkbdA2W2pk20vLzu3g==}
+    peerDependencies:
+      typescript: 5.x
+      vue: ^3.4.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      vue:
+        optional: true
 
   '@vueuse/core@10.11.1':
     resolution: {integrity: sha512-guoy26JQktXPcz+0n3GukWIy/JDNKti9v6VEMu6kV2sYBsWuGiTU8OWdg+ADfUbHg3/3DlqySDe7JmdHrktiww==}
@@ -7646,6 +7660,11 @@ snapshots:
   '@vue/shared@3.5.12': {}
 
   '@vue/shared@3.5.22': {}
+
+  '@vue/tsconfig@0.8.1(typescript@5.3.3)(vue@3.5.12(typescript@5.3.3))':
+    optionalDependencies:
+      typescript: 5.3.3
+      vue: 3.5.12(typescript@5.3.3)
 
   '@vueuse/core@10.11.1(vue@3.5.12(typescript@5.3.3))':
     dependencies:

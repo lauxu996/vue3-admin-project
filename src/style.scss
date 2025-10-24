@@ -31,24 +31,26 @@ ol {
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-}
 
-::-webkit-scrollbar-thumb {
-  background-color: #dcdfe6;
-  border-radius: 4px;
-}
+  &-thumb {
+    background-color: #dcdfe6;
+    border-radius: 4px;
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #c0c4cc;
-}
+    &:hover {
+      background-color: #c0c4cc;
+    }
+  }
 
-::-webkit-scrollbar-track {
-  background-color: #f5f7fa;
+  &-track {
+    background-color: #f5f7fa;
+  }
 }
 
 /* Element Plus 样式覆盖 */
-.el-button + .el-button {
-  margin-left: 10px;
+.el-button {
+  & + .el-button {
+    margin-left: 10px;
+  }
 }
 
 /* 通用工具类 */
@@ -60,8 +62,10 @@ ol {
   text-align: right;
 }
 
-.clearfix::after {
-  content: '';
-  display: table;
-  clear: both;
+.clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
 }

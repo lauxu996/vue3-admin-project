@@ -1,7 +1,8 @@
 <template>
   <div class="sidebar">
-    <div class="logo-container">
-      <h1>远程诊断平台</h1>
+    <div class="logo-container" :class="{ 'collapse': !sidebar.opened }">
+      <h1 v-if="sidebar.opened">远程诊断平台</h1>
+      <h1 v-else class="logo-text-collapse">远程</h1>
     </div>
     
     <el-scrollbar>
@@ -80,6 +81,18 @@ const activeMenu = computed(() => {
       font-weight: 600;
       font-size: 20px;
       margin: 0;
+      white-space: nowrap;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    &.collapse {
+      h1 {
+        opacity: 0.9;
+      }
+      
+      .logo-text-collapse {
+        font-size: 16px;
+      }
     }
   }
 
@@ -89,6 +102,41 @@ const activeMenu = computed(() => {
 
   :deep(.el-menu) {
     border: none;
+    background-color: #304156;
+  }
+
+  // 折叠后的菜单样式
+  :deep(.el-menu--collapse) {
+    width: 54px;
+
+    .el-menu-item,
+    .el-sub-menu__title {
+      text-align: center;
+      padding: 0 !important;
+      justify-content: center;
+
+      span {
+        opacity: 0;
+        transition: opacity 0.2s;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+      }
+
+      .el-sub-menu__icon-arrow {
+        display: none;
+      }
+
+      .el-icon {
+        margin: 0;
+      }
+    }
+
+    .el-sub-menu {
+      .el-menu {
+        background-color: #1f2d3d;
+      }
+    }
   }
 }
 </style>

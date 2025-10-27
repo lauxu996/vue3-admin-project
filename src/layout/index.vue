@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper" :class="{ 'mobile': device === 'mobile' }">
+  <div class="app-wrapper" :class="classObj">
     <!-- 侧边栏 -->
     <Sidebar class="sidebar-container" />
 
@@ -27,6 +27,14 @@ import AppMain from './components/AppMain.vue'
 
 const appStore = useAppStore()
 const device = computed(() => appStore.device)
+const sidebar = computed(() => appStore.sidebar)
+
+const classObj = computed(() => ({
+  mobile: device.value === 'mobile',
+  hideSidebar: !sidebar.value.opened,
+  openSidebar: sidebar.value.opened,
+  withoutAnimation: sidebar.value.withoutAnimation
+}))
 </script>
 
 <style scoped lang="scss">
@@ -37,11 +45,45 @@ const device = computed(() => appStore.device)
 
   &.mobile {
     .sidebar-container {
-      width: 0;
+      width: 0 !important;
     }
 
     .main-container {
-      margin-left: 0;
+      margin-left: 0 !important;
+    }
+  }
+
+  // 侧边栏折叠状态
+  &.hideSidebar {
+    .sidebar-container {
+      width: 54px;
+    }
+
+    .main-container {
+      margin-left: 54px;
+    }
+  }
+
+  // 侧边栏展开状态
+  &.openSidebar {
+    .sidebar-container {
+      width: 210px;
+    }
+
+    .main-container {
+      margin-left: 210px;
+    }
+  }
+
+  // 禁用动画
+  &.withoutAnimation {
+    .sidebar-container,
+    .main-container {
+      transition: none !important;
+    }
+    
+    .logo-container h1 {
+      transition: none !important;
     }
   }
 }
@@ -53,14 +95,17 @@ const device = computed(() => appStore.device)
   bottom: 0;
   width: 210px;
   background: #304156;
-  transition: width 0.28s;
+  transition: width 0.2s ease-in-out; // 减少动画时间到 0.2s
   z-index: 1001;
+  overflow: hidden;
+  will-change: width; // GPU 加速
 }
 
 .main-container {
   min-height: 100vh;
   margin-left: 210px;
-  transition: margin-left 0.28s;
+  transition: margin-left 0.2s ease-in-out; // 减少动画时间到 0.2s
   position: relative;
+  will-change: margin-left; // GPU 加速
 }
 </style>

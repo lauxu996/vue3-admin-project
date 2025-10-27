@@ -52,7 +52,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
   {
     path: '/system',
     name: 'System',
-    component: () => import('@/layout/index.vue'),  // ✅ 直接使用 Layout
+    component: () => import('@/layout/index.vue'),
     redirect: '/system/user',
     meta: {
       title: '系统管理',

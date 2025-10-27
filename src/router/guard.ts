@@ -87,34 +87,9 @@ export function setupRouterGuard(router: Router) {
             // 根据角色过滤路由
             const accessRoutes = filterAsyncRoutes(asyncRoutes, userStore.roles)
 
-            // 动态添加路由 - 作为 Layout 的子路由
-            console.log('🔧 开始添加动态路由...')
+            // 动态添加路由
             accessRoutes.forEach((route) => {
-              console.log('➕ 添加路由:', route.name, route.path, '子路由数:', route.children?.length || 0)
-              try {
-                // 关键修改：将动态路由作为 '/' 路由（Layout）的子路由
-                if (route.children && route.children.length > 0) {
-                  // 有子路由的，将每个子路由添加到 Layout 下
-                  route.children.forEach((child: any) => {
-                    const childRoute = {
-                      ...child,
-                      path: `${route.path}/${child.path}`.replace(/\/\//g, '/'), // 拼接完整路径
-                      meta: {
-                        ...child.meta,
-                        parentTitle: route.meta?.title // 保存父级标题
-                      }
-                    }
-                    router.addRoute('Layout', childRoute)
-                    console.log('  └─ 添加子路由:', child.name, '→', childRoute.path)
-                  })
-                } else {
-                  // 没有子路由的，直接添加
-                  router.addRoute('Layout', route as any)
-                }
-                console.log('✅ 路由添加成功:', route.name)
-              } catch (err) {
-                console.error('❌ 路由添加失败:', route.name, err)
-              }
+              router.addRoute(route as any)
             })
 
             // 打印所有已注册路由
@@ -140,26 +115,12 @@ export function setupRouterGuard(router: Router) {
         } else {
           // 已生成路由，但需要确保路由已注册（处理页面刷新的情况）
           const currentRoutes = router.getRoutes()
-          const hasAsyncRoutes = currentRoutes.some(r => r.name === 'SystemUser')
+          const hasAsyncRoutes = currentRoutes.some(r => r.name === 'System')
           
           if (!hasAsyncRoutes && permissionStore.routes.length > 0) {
             // 路由在 store 中但未注册，重新注册
             permissionStore.routes.forEach((route) => {
-              if (route.children && route.children.length > 0) {
-                route.children.forEach((child: any) => {
-                  const childRoute = {
-                    ...child,
-                    path: `${route.path}/${child.path}`.replace(/\/\//g, '/'),
-                    meta: {
-                      ...child.meta,
-                      parentTitle: route.meta?.title
-                    }
-                  }
-                  router.addRoute('Layout', childRoute)
-                })
-              } else {
-                router.addRoute('Layout', route as any)
-              }
+              router.addRoute(route as any)
             })
             next({ ...to, replace: true })
           } else {

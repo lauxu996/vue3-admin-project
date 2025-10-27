@@ -4,12 +4,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { UserInfo } from '@/types/user'
-import { getUserInfo as getStorageUserInfo, setUserInfo as setStorageUserInfo, clearAuth } from '@/utils/storage'
+import { getUserInfo as getStorageUserInfo, setUserInfo as setStorageUserInfo, clearAuth, getToken as getStorageToken, setToken as setStorageToken, getRefreshToken as getStorageRefreshToken, setRefreshToken as setStorageRefreshToken } from '@/utils/storage'
 
 export const useUserStore = defineStore('user', () => {
   // 状态
   const userInfo = ref<UserInfo | null>(getStorageUserInfo())
-  const token = ref<string>('')
+  const token = ref<string>(getStorageToken() || '')
+  const refreshToken = ref<string>(getStorageRefreshToken() || '')
 
   // 计算属性
   const userId = computed(() => userInfo.value?.id || '')
@@ -31,12 +32,20 @@ export const useUserStore = defineStore('user', () => {
   // 设置 token
   const setToken = (newToken: string) => {
     token.value = newToken
+    setStorageToken(newToken)
+  }
+
+  // 设置 refresh token
+  const setRefreshToken = (newRefreshToken: string) => {
+    refreshToken.value = newRefreshToken
+    setStorageRefreshToken(newRefreshToken)
   }
 
   // 登出
   const logout = () => {
     userInfo.value = null
     token.value = ''
+    refreshToken.value = ''
     clearAuth()
   }
 
@@ -49,6 +58,7 @@ export const useUserStore = defineStore('user', () => {
     // 状态
     userInfo,
     token,
+    refreshToken,
     // 计算属性
     userId,
     username,
@@ -60,6 +70,7 @@ export const useUserStore = defineStore('user', () => {
     // 方法
     setUserInfo,
     setToken,
+    setRefreshToken,
     logout,
     reset
   }

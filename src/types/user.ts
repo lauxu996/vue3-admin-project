@@ -23,6 +23,15 @@ export interface LoginParams {
 
 // 登录响应数据
 export interface LoginResult {
-  token: string
+  accessToken: string
+  refreshToken: string
+  expiresIn?: number // token 过期时间（秒）
   userInfo: UserInfo
+}
+
+// Token 刷新响应数据
+export interface RefreshTokenResult {
+  accessToken: string
+  refreshToken: string
+  expiresIn?: number
 }

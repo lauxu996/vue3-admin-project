@@ -8,6 +8,7 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import './style.scss'
+import { printEnvInfo, isDev } from '@/utils/env'
 
 const app = createApp(App)
 
@@ -22,6 +23,13 @@ app.use(router)
 app.use(ElementPlus)
 
 // 设置路由守卫
+
+console.log('router', router)
 setupRouterGuard(router)
+
+// 开发环境打印环境信息
+if (isDev()) {
+  printEnvInfo()
+}
 
 app.mount('#app')

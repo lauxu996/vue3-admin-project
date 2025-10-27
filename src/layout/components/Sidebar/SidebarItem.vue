@@ -67,12 +67,25 @@ const hasOneShowingChild = (children: AppRouteRecordRaw[] = [], parent: AppRoute
 }
 
 const resolvePath = (routePath: string) => {
+  // 如果是外链，直接返回
   if (/^https?:\/\//.test(routePath)) {
     return routePath
   }
+  // 如果基础路径是外链，直接返回
   if (/^https?:\/\//.test(props.basePath)) {
     return props.basePath
   }
-  return props.basePath + '/' + routePath.replace(/^\//, '')
+  // 如果子路由是绝对路径，直接返回
+  if (routePath.startsWith('/')) {
+    return routePath
+  }
+  // 如果 routePath 为空（父路由的情况）
+  if (!routePath || routePath === '') {
+    return props.basePath
+  }
+  // 否则拼接路径
+  const basePath = props.basePath.endsWith('/') ? props.basePath : props.basePath + '/'
+  const finalPath = basePath + routePath
+  return finalPath
 }
 </script>

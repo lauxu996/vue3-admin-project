@@ -64,7 +64,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Shop } from '@element-plus/icons-vue'
 import { useUserStore } from '@/store/modules/user'
-import { setToken } from '@/utils/storage'
+import { setToken, setRefreshToken } from '@/utils/storage'
 import type { LoginParams } from '@/types/user'
 
 const router = useRouter()
@@ -93,10 +93,11 @@ const handleLogin = async () => {
       try {
         // 模拟登录（实际项目中需要调用 API）
         // const res = await login(loginForm)
-        // const { token, userInfo } = res.data
+        // const { accessToken, refreshToken, userInfo } = res.data
 
         // 模拟数据
-        const mockToken = 'mock-token-' + Date.now()
+        const mockAccessToken = 'mock-access-token-' + Date.now()
+        const mockRefreshToken = 'mock-refresh-token-' + Date.now()
         const mockUserInfo = {
           id: 1,
           username: loginForm.username,
@@ -109,8 +110,10 @@ const handleLogin = async () => {
         }
 
         // 保存 token
-        setToken(mockToken)
-        userStore.setToken(mockToken)
+        setToken(mockAccessToken)
+        setRefreshToken(mockRefreshToken)
+        userStore.setToken(mockAccessToken)
+        userStore.setRefreshToken(mockRefreshToken)
         userStore.setUserInfo(mockUserInfo)
 
         ElMessage.success('登录成功')

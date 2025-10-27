@@ -27,6 +27,7 @@ export const constantRoutes: AppRouteRecordRaw[] = [
   },
   {
     path: '/',
+    name: 'Layout',
     redirect: '/dashboard',
     component: () => import('@/layout/index.vue'),
     children: [
@@ -51,8 +52,8 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
   {
     path: '/system',
     name: 'System',
+    component: () => import('@/layout/index.vue'),  // ✅ 直接使用 Layout
     redirect: '/system/user',
-    component: () => import('@/layout/index.vue'),
     meta: {
       title: '系统管理',
       icon: 'Setting',
@@ -86,6 +87,36 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         meta: {
           title: '菜单管理',
           icon: 'Menu',
+          roles: ['admin']
+        }
+      },
+      {
+        path: 'token-test',
+        name: 'TokenTest',
+        component: () => import('@/views/system/token-test.vue'),
+        meta: {
+          title: 'Token测试',
+          icon: 'Lock',
+          roles: ['admin']
+        }
+      },
+      {
+        path: 'env-config',
+        name: 'EnvConfig',
+        component: () => import('@/views/system/env-config.vue'),
+        meta: {
+          title: '环境配置',
+          icon: 'Setting',
+          roles: ['admin']
+        }
+      },
+      {
+        path: 'route-debug',
+        name: 'RouteDebug',
+        component: () => import('@/views/system/route-debug.vue'),
+        meta: {
+          title: '路由调试',
+          icon: 'Monitor',
           roles: ['admin']
         }
       }

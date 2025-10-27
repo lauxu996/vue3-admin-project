@@ -14,6 +14,7 @@
         background-color="#304156"
         text-color="#bfcbd9"
         active-text-color="#409eff"
+        router
       >
         <sidebar-item
           v-for="route in permissionRoutes"
@@ -40,9 +41,16 @@ const permissionStore = usePermissionStore()
 
 const sidebar = computed(() => appStore.sidebar)
 
-// 合并常驻路由和动态路由
+// 合并常驻路由和动态路由，过滤掉隐藏的路由
 const permissionRoutes = computed(() => {
-  return [...constantRoutes, ...permissionStore.routes]
+  // 过滤出需要在侧边栏显示的常驻路由
+  const visibleConstantRoutes = constantRoutes.filter(route => {
+    // 过滤掉 hidden 为 true 的路由
+    return !route.meta?.hidden
+  })
+  
+  // 合并常驻路由和动态路由
+  return [...visibleConstantRoutes, ...permissionStore.routes]
 })
 
 const activeMenu = computed(() => {

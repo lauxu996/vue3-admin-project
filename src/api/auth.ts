@@ -2,7 +2,7 @@
  * 认证相关 API
  */
 import { request } from '@/utils/request'
-import type { LoginParams, LoginResult, UserInfo } from '@/types/user'
+import type { LoginParams, LoginResult, UserInfo, RefreshTokenResult } from '@/types/user'
 import type { ApiResponse } from '@/types/api'
 
 /**
@@ -33,5 +33,16 @@ export function getUserInfo(): Promise<ApiResponse<UserInfo>> {
   return request({
     url: '/auth/userInfo',
     method: 'get'
+  })
+}
+
+/**
+ * 刷新 Token
+ */
+export function refreshToken(refreshToken: string): Promise<ApiResponse<RefreshTokenResult>> {
+  return request({
+    url: '/auth/refreshToken',
+    method: 'post',
+    data: { refreshToken }
   })
 }

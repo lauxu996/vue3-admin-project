@@ -3,6 +3,7 @@
  */
 
 const TOKEN_KEY = 'ACCESS_TOKEN'
+const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN'
 const USER_INFO_KEY = 'USER_INFO'
 
 // Token 管理
@@ -16,6 +17,19 @@ export const setToken = (token: string): void => {
 
 export const removeToken = (): void => {
   localStorage.removeItem(TOKEN_KEY)
+}
+
+// Refresh Token 管理
+export const getRefreshToken = (): string | null => {
+  return localStorage.getItem(REFRESH_TOKEN_KEY)
+}
+
+export const setRefreshToken = (refreshToken: string): void => {
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+}
+
+export const removeRefreshToken = (): void => {
+  localStorage.removeItem(REFRESH_TOKEN_KEY)
 }
 
 // 用户信息管理
@@ -35,5 +49,6 @@ export const removeUserInfo = (): void => {
 // 清除所有登录信息
 export const clearAuth = (): void => {
   removeToken()
+  removeRefreshToken()
   removeUserInfo()
 }

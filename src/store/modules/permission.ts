@@ -45,7 +45,7 @@ export const usePermissionStore = defineStore(
     persist: {
       key: 'permission-store',
       storage: localStorage,
-      paths: ['routes', 'isRoutesGenerated']
+      paths: ['isRoutesGenerated']  // 只持久化标志位，不持久化 routes（因为 component 函数无法序列化）
     }
   }
 )

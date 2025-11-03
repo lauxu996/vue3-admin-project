@@ -84,11 +84,14 @@ export function setupRouterGuard(router: Router) {
               userStore.setUserInfo(mockUserInfo)
             }
 
+            console.log('🔧 开始生成动态路由...')
+            
             // 根据角色过滤路由
             const accessRoutes = filterAsyncRoutes(asyncRoutes, userStore.roles)
 
             // 动态添加路由
             accessRoutes.forEach((route) => {
+              console.log('➕ 添加路由:', route.name, route.path)
               router.addRoute(route as any)
             })
 
@@ -99,7 +102,7 @@ export function setupRouterGuard(router: Router) {
               console.log('  -', r.name, '→', r.path)
             })
 
-            // 保存到 store
+            // 保存到 store（只保存标志位，不保存 routes）
             permissionStore.setRoutes(accessRoutes)
 
             // 重新跳转，确保 addRoute 已经完成
@@ -113,17 +116,33 @@ export function setupRouterGuard(router: Router) {
             NProgress.done()
           }
         } else {
-          // 已生成路由，但需要确保路由已注册（处理页面刷新的情况）
+          // 已生成路由标志，但需要确保路由已注册（处理页面刷新的情况）
           const currentRoutes = router.getRoutes()
           const hasAsyncRoutes = currentRoutes.some(r => r.name === 'System')
           
-          if (!hasAsyncRoutes && permissionStore.routes.length > 0) {
-            // 路由在 store 中但未注册，重新注册
-            permissionStore.routes.forEach((route) => {
+          console.log('🔍 检查路由状态:', {
+            isRoutesGenerated: permissionStore.isRoutesGenerated,
+            hasAsyncRoutes,
+            userRoles: userStore.roles
+          })
+          
+          if (!hasAsyncRoutes) {
+            // 路由未注册，需要重新生成
+            console.log('⚠️ 路由未注册，重新生成...')
+            
+            // 根据角色重新过滤路由
+            const accessRoutes = filterAsyncRoutes(asyncRoutes, userStore.roles)
+            
+            // 重新添加路由
+            accessRoutes.forEach((route) => {
+              console.log('➕ 重新添加路由:', route.name, route.path)
               router.addRoute(route as any)
             })
+            
+            // 重新跳转
             next({ ...to, replace: true })
           } else {
+            console.log('✅ 路由已注册，直接访问')
             next()
           }
         }

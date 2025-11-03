@@ -68,13 +68,15 @@ const activeMenu = computed(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.3s;
 
   .logo-container {
     height: 50px;
     line-height: 50px;
-    background: #2b2f3a;
+    background: var(--sidebar-bg);
     text-align: center;
     overflow: hidden;
+    transition: background-color 0.3s;
 
     h1 {
       color: #fff;
@@ -102,7 +104,22 @@ const activeMenu = computed(() => {
 
   :deep(.el-menu) {
     border: none;
-    background-color: #304156;
+    background-color: var(--sidebar-bg);
+    transition: background-color 0.3s;
+
+    .el-menu-item,
+    .el-sub-menu__title {
+      color: var(--sidebar-text);
+      transition: color 0.3s;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+      }
+
+      &.is-active {
+        background-color: rgba(64, 158, 255, 0.2) !important;
+      }
+    }
   }
 
   // 折叠后的菜单样式

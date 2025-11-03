@@ -5,6 +5,37 @@
   box-sizing: border-box;
 }
 
+/* 主题变量 */
+:root {
+  /* 浅色主题 */
+  --bg-color: #f0f2f5;
+  --bg-color-page: #ffffff;
+  --text-color: #333333;
+  --text-color-secondary: #666666;
+  --border-color: #dcdfe6;
+  --sidebar-bg: #304156;
+  --sidebar-text: #bfcbd9;
+  --navbar-bg: #ffffff;
+  --navbar-text: #333333;
+  --scrollbar-thumb: #dcdfe6;
+  --scrollbar-track: #f5f7fa;
+}
+
+/* 深色主题 */
+[data-theme='dark'] {
+  --bg-color: #1a1a1a;
+  --bg-color-page: #2d2d2d;
+  --text-color: #e0e0e0;
+  --text-color-secondary: #b0b0b0;
+  --border-color: #404040;
+  --sidebar-bg: #1f1f1f;
+  --sidebar-text: #b0b0b0;
+  --navbar-bg: #2d2d2d;
+  --navbar-text: #e0e0e0;
+  --scrollbar-thumb: #4a4a4a;
+  --scrollbar-track: #2d2d2d;
+}
+
 html,
 body,
 #app {
@@ -15,6 +46,9 @@ body,
     'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 a {
@@ -33,7 +67,7 @@ ol {
   height: 8px;
 
   &-thumb {
-    background-color: #dcdfe6;
+    background-color: var(--scrollbar-thumb);
     border-radius: 4px;
 
     &:hover {
@@ -42,7 +76,7 @@ ol {
   }
 
   &-track {
-    background-color: #f5f7fa;
+    background-color: var(--scrollbar-track);
   }
 }
 

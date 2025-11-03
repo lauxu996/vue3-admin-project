@@ -42,6 +42,8 @@ const classObj = computed(() => ({
   position: relative;
   width: 100%;
   height: 100%;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s;
 
   &.mobile {
     .sidebar-container {
@@ -94,8 +96,8 @@ const classObj = computed(() => ({
   left: 0;
   bottom: 0;
   width: 210px;
-  background: #304156;
-  transition: width 0.2s ease-in-out; // 减少动画时间到 0.2s
+  background: var(--sidebar-bg);
+  transition: width 0.2s ease-in-out, background-color 0.3s; // 减少动画时间到 0.2s
   z-index: 1001;
   overflow: hidden;
   will-change: width; // GPU 加速

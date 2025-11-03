@@ -149,9 +149,10 @@ watch(visible, (value) => {
 .tags-view-container {
   height: 34px;
   width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  transition: background-color 0.3s;
 
   .tags-view-wrapper {
     height: 100%;
@@ -167,13 +168,14 @@ watch(visible, (value) => {
       cursor: pointer;
       height: 26px;
       line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      background: var(--navbar-bg);
       padding: 0 8px;
       font-size: 12px;
       margin-left: 5px;
       margin-top: 4px;
+      transition: all 0.3s;
 
       &:first-of-type {
         margin-left: 0;
@@ -220,7 +222,7 @@ watch(visible, (value) => {
 
   .contextmenu {
     margin: 0;
-    background: #fff;
+    background: var(--navbar-bg);
     z-index: 3000;
     position: absolute;
     list-style-type: none;
@@ -228,8 +230,9 @@ watch(visible, (value) => {
     border-radius: 4px;
     font-size: 12px;
     font-weight: 400;
-    color: #333;
+    color: var(--text-color);
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s;
 
     li {
       margin: 0;
@@ -237,7 +240,7 @@ watch(visible, (value) => {
       cursor: pointer;
 
       &:hover {
-        background: #eee;
+        background: rgba(64, 158, 255, 0.1);
       }
     }
   }

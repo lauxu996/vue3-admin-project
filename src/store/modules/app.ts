@@ -2,7 +2,7 @@
  * 应用状态管理
  */
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
   // 侧边栏状态
@@ -13,6 +13,11 @@ export const useAppStore = defineStore('app', () => {
 
   // 设备类型
   const device = ref<'desktop' | 'mobile'>('desktop')
+
+  // 主题模式 ('light' | 'dark')
+  const theme = ref<'light' | 'dark'>(
+    (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
+  )
 
   // 切换侧边栏
   const toggleSidebar = (withoutAnimation = false) => {
@@ -37,12 +42,35 @@ export const useAppStore = defineStore('app', () => {
     device.value = val
   }
 
+  // 切换主题
+  const toggleTheme = () => {
+    theme.value = theme.value === 'light' ? 'dark' : 'light'
+  }
+
+  // 设置主题
+  const setTheme = (val: 'light' | 'dark') => {
+    theme.value = val
+  }
+
+  // 监听主题变化，应用到 document
+  watch(
+    theme,
+    (newTheme) => {
+      document.documentElement.setAttribute('data-theme', newTheme)
+      localStorage.setItem('theme', newTheme)
+    },
+    { immediate: true }
+  )
+
   return {
     sidebar,
     device,
+    theme,
     toggleSidebar,
     closeSidebar,
     openSidebar,
-    setDevice
+    setDevice,
+    toggleTheme,
+    setTheme
   }
 })

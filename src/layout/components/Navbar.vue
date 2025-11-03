@@ -10,6 +10,14 @@
     </div>
 
     <div class="right-menu">
+      <!-- 主题切换按钮 -->
+      <el-tooltip :content="theme === 'light' ? '切换到深色模式' : '切换到浅色模式'" placement="bottom">
+        <el-icon class="theme-toggle" @click="toggleTheme">
+          <Sunny v-if="theme === 'light'" />
+          <Moon v-else />
+        </el-icon>
+      </el-tooltip>
+
       <el-dropdown trigger="click" @command="handleCommand">
         <div class="avatar-container">
           <el-avatar :size="32" :src="userStore.avatar">
@@ -35,6 +43,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
+import { Sunny, Moon } from '@element-plus/icons-vue'
 import { useAppStore } from '@/store/modules/app'
 import { useUserStore } from '@/store/modules/user'
 import Breadcrumb from './Breadcrumb.vue'
@@ -44,9 +53,14 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 
 const sidebar = computed(() => appStore.sidebar)
+const theme = computed(() => appStore.theme)
 
 const toggleSidebar = () => {
   appStore.toggleSidebar()
+}
+
+const toggleTheme = () => {
+  appStore.toggleTheme()
 }
 
 const handleCommand = (command: string) => {
@@ -70,12 +84,13 @@ const handleCommand = (command: string) => {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: var(--navbar-bg);
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  transition: background-color 0.3s;
 
   .left-menu {
     display: flex;
@@ -85,7 +100,7 @@ const handleCommand = (command: string) => {
     .hamburger {
       font-size: 24px;
       cursor: pointer;
-      color: #5a5e66;
+      color: var(--text-color-secondary);
 
       &:hover {
         color: #409eff;
@@ -102,6 +117,18 @@ const handleCommand = (command: string) => {
     align-items: center;
     gap: 20px;
 
+    .theme-toggle {
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-color-secondary);
+      transition: all 0.3s;
+
+      &:hover {
+        color: #409eff;
+        transform: rotate(180deg);
+      }
+    }
+
     .avatar-container {
       display: flex;
       align-items: center;
@@ -110,7 +137,7 @@ const handleCommand = (command: string) => {
 
       .username {
         font-size: 14px;
-        color: #333;
+        color: var(--navbar-text);
       }
 
       &:hover {

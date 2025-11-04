@@ -4,7 +4,7 @@
       <el-col :span="6">
         <el-card shadow="hover">
           <div class="card-panel">
-            <div class="card-panel-icon-wrapper" style="background: #409eff">
+            <div class="card-panel-icon-wrapper icon-blue">
               <el-icon :size="40" color="#fff">
                 <User />
               </el-icon>
@@ -20,7 +20,7 @@
       <el-col :span="6">
         <el-card shadow="hover">
           <div class="card-panel">
-            <div class="card-panel-icon-wrapper" style="background: #67c23a">
+            <div class="card-panel-icon-wrapper icon-green">
               <el-icon :size="40" color="#fff">
                 <ShoppingCart />
               </el-icon>
@@ -36,7 +36,7 @@
       <el-col :span="6">
         <el-card shadow="hover">
           <div class="card-panel">
-            <div class="card-panel-icon-wrapper" style="background: #e6a23c">
+            <div class="card-panel-icon-wrapper icon-orange">
               <el-icon :size="40" color="#fff">
                 <TrendCharts />
               </el-icon>
@@ -52,7 +52,7 @@
       <el-col :span="6">
         <el-card shadow="hover">
           <div class="card-panel">
-            <div class="card-panel-icon-wrapper" style="background: #f56c6c">
+            <div class="card-panel-icon-wrapper icon-red">
               <el-icon :size="40" color="#fff">
                 <Message />
               </el-icon>
@@ -121,6 +121,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      
+      &.icon-blue {
+        background: var(--theme-color);
+      }
+      
+      &.icon-green {
+        background: #67c23a;
+      }
+      
+      &.icon-orange {
+        background: #e6a23c;
+      }
+      
+      &.icon-red {
+        background: #f56c6c;
+      }
     }
 
     .card-panel-description {
@@ -143,7 +159,7 @@
 
   .welcome-content {
     h2 {
-      color: #409eff;
+      color: var(--theme-color);
       margin-bottom: 20px;
     }
 
@@ -172,7 +188,7 @@
       background: #f5f7fa;
       padding: 2px 8px;
       border-radius: 4px;
-      color: #409eff;
+      color: var(--theme-color);
       font-family: 'Courier New', monospace;
     }
   }

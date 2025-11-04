@@ -19,6 +19,11 @@ export const useAppStore = defineStore('app', () => {
     (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
   )
 
+  // 主题颜色 ('blue' | 'green' | 'purple' | 'orange' | 'red')
+  const themeColor = ref<'blue' | 'green' | 'purple' | 'orange' | 'red'>(
+    (localStorage.getItem('themeColor') as 'blue' | 'green' | 'purple' | 'orange' | 'red') || 'blue'
+  )
+
   // 切换侧边栏
   const toggleSidebar = (withoutAnimation = false) => {
     sidebar.value.opened = !sidebar.value.opened
@@ -52,6 +57,11 @@ export const useAppStore = defineStore('app', () => {
     theme.value = val
   }
 
+  // 设置主题颜色
+  const setThemeColor = (val: 'blue' | 'green' | 'purple' | 'orange' | 'red') => {
+    themeColor.value = val
+  }
+
   // 监听主题变化，应用到 document
   watch(
     theme,
@@ -62,15 +72,27 @@ export const useAppStore = defineStore('app', () => {
     { immediate: true }
   )
 
+  // 监听主题颜色变化，应用到 document
+  watch(
+    themeColor,
+    (newColor) => {
+      document.documentElement.setAttribute('data-theme-color', newColor)
+      localStorage.setItem('themeColor', newColor)
+    },
+    { immediate: true }
+  )
+
   return {
     sidebar,
     device,
     theme,
+    themeColor,
     toggleSidebar,
     closeSidebar,
     openSidebar,
     setDevice,
     toggleTheme,
-    setTheme
+    setTheme,
+    setThemeColor
   }
 })

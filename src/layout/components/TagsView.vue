@@ -182,13 +182,13 @@ watch(visible, (value) => {
       }
 
       &:hover {
-        color: #409eff;
+        color: var(--theme-color);
       }
 
       &.active {
-        background-color: #409eff;
+        background-color: var(--theme-color);
         color: #fff;
-        border-color: #409eff;
+        border-color: var(--theme-color);
 
         &::before {
           content: '';
@@ -240,7 +240,7 @@ watch(visible, (value) => {
       cursor: pointer;
 
       &:hover {
-        background: rgba(64, 158, 255, 0.1);
+        background: var(--theme-color-lighter);
       }
     }
   }

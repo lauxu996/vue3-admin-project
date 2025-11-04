@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo-container" :class="{ 'collapse': !sidebar.opened }">
       <h1 v-if="sidebar.opened">远程诊断平台</h1>
-      <h1 v-else class="logo-text-collapse">远程</h1>
+      <h1 v-else class="logo-text-collapse"></h1>
     </div>
     
     <el-scrollbar>
@@ -14,7 +14,7 @@
         mode="vertical"
         background-color="#304156"
         text-color="#bfcbd9"
-        active-text-color="#409eff"
+        :active-text-color="themeColor"
         router
       >
         <sidebar-item
@@ -41,6 +41,17 @@ const appStore = useAppStore()
 const permissionStore = usePermissionStore()
 
 const sidebar = computed(() => appStore.sidebar)
+const themeColor = computed(() => {
+  // 获取当前主题色对应的颜色值
+  const colorMap: Record<string, string> = {
+    blue: '#409eff',
+    green: '#67c23a',
+    purple: '#9c27b0',
+    orange: '#ff9800',
+    red: '#f56c6c'
+  }
+  return colorMap[appStore.themeColor] || '#409eff'
+})
 
 // 合并常驻路由和动态路由，过滤掉隐藏的路由
 const permissionRoutes = computed(() => {
@@ -120,6 +131,15 @@ const activeMenu = computed(() => {
         background-color: rgba(64, 158, 255, 0.2) !important;
       }
     }
+  }
+
+  // 使用主题色高亮菜单
+  :deep(.el-menu-item.is-active) {
+    background-color: var(--theme-color-lighter) !important;
+  }
+
+  :deep(.el-sub-menu.is-active > .el-sub-menu__title) {
+    color: var(--theme-color) !important;
   }
 
   // 折叠后的菜单样式

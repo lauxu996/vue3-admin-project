@@ -32,7 +32,7 @@ const goHome = () => {
     .error-code {
       font-size: 120px;
       font-weight: bold;
-      color: #409eff;
+      color: var(--theme-color);
       line-height: 1;
       margin-bottom: 20px;
     }

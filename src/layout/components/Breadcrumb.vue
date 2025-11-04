@@ -72,7 +72,7 @@ watch(
     font-weight: normal;
 
     &:hover {
-      color: #409eff;
+      color: var(--theme-color);
     }
   }
 }

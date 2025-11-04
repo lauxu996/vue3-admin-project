@@ -10,6 +10,9 @@
     </div>
 
     <div class="right-menu">
+      <!-- 主题颜色选择器 -->
+      <ThemeColorPicker />
+
       <!-- 主题切换按钮 -->
       <el-tooltip :content="theme === 'light' ? '切换到深色模式' : '切换到浅色模式'" placement="bottom">
         <el-icon class="theme-toggle" @click="toggleTheme">
@@ -47,6 +50,7 @@ import { Sunny, Moon } from '@element-plus/icons-vue'
 import { useAppStore } from '@/store/modules/app'
 import { useUserStore } from '@/store/modules/user'
 import Breadcrumb from './Breadcrumb.vue'
+import ThemeColorPicker from './ThemeColorPicker.vue'
 
 const router = useRouter()
 const appStore = useAppStore()
@@ -103,7 +107,7 @@ const handleCommand = (command: string) => {
       color: var(--text-color-secondary);
 
       &:hover {
-        color: #409eff;
+        color: var(--theme-color);
       }
     }
 
@@ -124,7 +128,7 @@ const handleCommand = (command: string) => {
       transition: all 0.3s;
 
       &:hover {
-        color: #409eff;
+        color: var(--theme-color);
         transform: rotate(180deg);
       }
     }
@@ -134,15 +138,17 @@ const handleCommand = (command: string) => {
       align-items: center;
       gap: 8px;
       cursor: pointer;
+      transition: all 0.3s;
 
       .username {
         font-size: 14px;
         color: var(--navbar-text);
+        transition: color 0.3s;
       }
 
       &:hover {
         .username {
-          color: #409eff;
+          color: var(--theme-color) !important;
         }
       }
     }

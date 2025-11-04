@@ -14,7 +14,12 @@
         <p>专业 专注 共享 共惠</p>
       </div>
 
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
+      <el-form
+        ref="loginFormRef"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+      >
         <el-form-item prop="username">
           <el-input
             v-model="loginForm.username"
@@ -59,77 +64,77 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import { Shop } from '@element-plus/icons-vue'
-import { useUserStore } from '@/store/modules/user'
-import { setToken, setRefreshToken } from '@/utils/storage'
-import type { LoginParams } from '@/types/user'
+import { ref, reactive } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { ElMessage, type FormInstance, type FormRules } from "element-plus";
+import { Shop } from "@element-plus/icons-vue";
+import { useUserStore } from "@/store/modules/user";
+import { setToken, setRefreshToken } from "@/utils/storage";
+import type { LoginParams } from "@/types/user";
 
-const router = useRouter()
-const route = useRoute()
-const userStore = useUserStore()
+const router = useRouter();
+const route = useRoute();
+const userStore = useUserStore();
 
-const loginFormRef = ref<FormInstance>()
-const loading = ref(false)
+const loginFormRef = ref<FormInstance>();
+const loading = ref(false);
 
 const loginForm = reactive<LoginParams>({
-  username: 'admin',
-  password: 'admin123'
-})
+  username: "admin",
+  password: "admin123",
+});
 
 const loginRules: FormRules = {
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-}
+  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+};
 
 const handleLogin = async () => {
-  if (!loginFormRef.value) return
+  if (!loginFormRef.value) return;
 
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
-      loading.value = true
+      loading.value = true;
       try {
         // 模拟登录（实际项目中需要调用 API）
         // const res = await login(loginForm)
         // const { accessToken, refreshToken, userInfo } = res.data
 
         // 模拟数据
-        const mockAccessToken = 'mock-access-token-' + Date.now()
-        const mockRefreshToken = 'mock-refresh-token-' + Date.now()
+        const mockAccessToken = "mock-access-token-" + Date.now();
+        const mockRefreshToken = "mock-refresh-token-" + Date.now();
         const mockUserInfo = {
           id: 1,
           username: loginForm.username,
-          nickname: '管理员',
-          avatar: '',
-          email: 'admin@example.com',
-          phone: '13800138000',
-          roles: ['admin'],
-          permissions: ['*:*:*']
-        }
+          nickname: "管理员",
+          avatar: "",
+          email: "admin@example.com",
+          phone: "13800138000",
+          roles: ["admin"],
+          permissions: ["*:*:*"],
+        };
 
         // 保存 token
-        setToken(mockAccessToken)
-        setRefreshToken(mockRefreshToken)
-        userStore.setToken(mockAccessToken)
-        userStore.setRefreshToken(mockRefreshToken)
-        userStore.setUserInfo(mockUserInfo)
+        setToken(mockAccessToken);
+        setRefreshToken(mockRefreshToken);
+        userStore.setToken(mockAccessToken);
+        userStore.setRefreshToken(mockRefreshToken);
+        userStore.setUserInfo(mockUserInfo);
 
-        ElMessage.success('登录成功')
+        ElMessage.success("登录成功");
 
         // 跳转到首页或者重定向的页面
-        const redirect = (route.query.redirect as string) || '/'
-        await router.push(redirect)
+        const redirect = (route.query.redirect as string) || "/";
+        await router.push(redirect);
       } catch (error) {
-        console.error('登录失败:', error)
-        ElMessage.error('登录失败，请检查用户名和密码')
+        console.error("登录失败:", error);
+        ElMessage.error("登录失败，请检查用户名和密码");
       } finally {
-        loading.value = false
+        loading.value = false;
       }
     }
-  })
-}
+  });
+};
 </script>
 
 <style scoped lang="scss">

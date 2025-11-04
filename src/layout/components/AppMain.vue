@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useTagsViewStore } from '@/store/modules/tagsView'
+import { computed } from "vue";
+import { useTagsViewStore } from "@/store/modules/tagsView";
 
-const tagsViewStore = useTagsViewStore()
-const cachedViews = computed(() => tagsViewStore.cachedViews)
+const tagsViewStore = useTagsViewStore();
+const cachedViews = computed(() => tagsViewStore.cachedViews);
 </script>
 
 <style scoped lang="scss">

@@ -14,7 +14,10 @@
       <ThemeColorPicker />
 
       <!-- 主题切换按钮 -->
-      <el-tooltip :content="theme === 'light' ? '切换到深色模式' : '切换到浅色模式'" placement="bottom">
+      <el-tooltip
+        :content="theme === 'light' ? '切换到深色模式' : '切换到浅色模式'"
+        placement="bottom"
+      >
         <el-icon class="theme-toggle" @click="toggleTheme">
           <Sunny v-if="theme === 'light'" />
           <Moon v-else />
@@ -34,7 +37,9 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="profile">个人中心</el-dropdown-item>
-            <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided command="logout"
+              >退出登录</el-dropdown-item
+            >
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -43,44 +48,44 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessageBox } from 'element-plus'
-import { Sunny, Moon } from '@element-plus/icons-vue'
-import { useAppStore } from '@/store/modules/app'
-import { useUserStore } from '@/store/modules/user'
-import Breadcrumb from './Breadcrumb.vue'
-import ThemeColorPicker from './ThemeColorPicker.vue'
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { ElMessageBox } from "element-plus";
+import { Sunny, Moon } from "@element-plus/icons-vue";
+import { useAppStore } from "@/store/modules/app";
+import { useUserStore } from "@/store/modules/user";
+import Breadcrumb from "./Breadcrumb.vue";
+import ThemeColorPicker from "./ThemeColorPicker.vue";
 
-const router = useRouter()
-const appStore = useAppStore()
-const userStore = useUserStore()
+const router = useRouter();
+const appStore = useAppStore();
+const userStore = useUserStore();
 
-const sidebar = computed(() => appStore.sidebar)
-const theme = computed(() => appStore.theme)
+const sidebar = computed(() => appStore.sidebar);
+const theme = computed(() => appStore.theme);
 
 const toggleSidebar = () => {
-  appStore.toggleSidebar()
-}
+  appStore.toggleSidebar();
+};
 
 const toggleTheme = () => {
-  appStore.toggleTheme()
-}
+  appStore.toggleTheme();
+};
 
 const handleCommand = (command: string) => {
-  if (command === 'logout') {
-    ElMessageBox.confirm('确定要退出登录吗？', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
+  if (command === "logout") {
+    ElMessageBox.confirm("确定要退出登录吗？", "提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
     }).then(() => {
-      userStore.logout()
-      router.push('/login')
-    })
-  } else if (command === 'profile') {
+      userStore.logout();
+      router.push("/login");
+    });
+  } else if (command === "profile") {
     // 跳转到个人中心
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

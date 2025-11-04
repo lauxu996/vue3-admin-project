@@ -1,36 +1,36 @@
 /**
  * 路由守卫
  */
-import type { Router } from 'vue-router'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/storage'
-import { useUserStore } from '@/store/modules/user'
-import { usePermissionStore } from '@/store/modules/permission'
-import { asyncRoutes } from './routes'
+import type { Router } from "vue-router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import { getToken } from "@/utils/storage";
+import { useUserStore } from "@/store/modules/user";
+import { usePermissionStore } from "@/store/modules/permission";
+import { asyncRoutes } from "./routes";
 
-NProgress.configure({ showSpinner: false })
+NProgress.configure({ showSpinner: false });
 
 // 白名单（不需要登录的页面）
-const whiteList = ['/login']
+const whiteList = ["/login"];
 
 /**
  * 过滤有权限的路由
  */
 function filterAsyncRoutes(routes: any[], roles: string[]) {
-  const res: any[] = []
+  const res: any[] = [];
 
   routes.forEach((route) => {
-    const tmp = { ...route }
+    const tmp = { ...route };
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+        tmp.children = filterAsyncRoutes(tmp.children, roles);
       }
-      res.push(tmp)
+      res.push(tmp);
     }
-  })
+  });
 
-  return res
+  return res;
 }
 
 /**
@@ -38,9 +38,9 @@ function filterAsyncRoutes(routes: any[], roles: string[]) {
  */
 function hasPermission(roles: string[], route: any) {
   if (route.meta && route.meta.roles) {
-    return roles.some((role) => route.meta.roles.includes(role))
+    return roles.some((role) => route.meta.roles.includes(role));
   }
-  return true
+  return true;
 }
 
 /**
@@ -48,21 +48,24 @@ function hasPermission(roles: string[], route: any) {
  */
 export function setupRouterGuard(router: Router) {
   router.beforeEach(async (to, _from, next) => {
-    NProgress.start()
+    NProgress.start();
 
-    const userStore = useUserStore()
-    const permissionStore = usePermissionStore()
-    const token = getToken()
+    const userStore = useUserStore();
+    const permissionStore = usePermissionStore();
+    const token = getToken();
 
     if (token) {
       // 已登录
-      if (to.path === '/login') {
+      if (to.path === "/login") {
         // 如果已登录，跳转到首页
-        next({ path: '/' })
-        NProgress.done()
+        next({ path: "/" });
+        NProgress.done();
       } else {
         // 判断是否已生成路由
-        if (!permissionStore.isRoutesGenerated || userStore.roles.length === 0) {
+        if (
+          !permissionStore.isRoutesGenerated ||
+          userStore.roles.length === 0
+        ) {
           try {
             // 如果没有用户信息，先获取
             if (userStore.roles.length === 0) {
@@ -73,77 +76,83 @@ export function setupRouterGuard(router: Router) {
               // 模拟获取用户信息（实际项目中需要调用 API）
               const mockUserInfo = {
                 id: 1,
-                username: 'admin',
-                nickname: '管理员',
-                avatar: '',
-                email: 'admin@example.com',
-                phone: '13800138000',
-                roles: ['admin'],
-                permissions: ['*:*:*']
-              }
-              userStore.setUserInfo(mockUserInfo)
+                username: "admin",
+                nickname: "管理员",
+                avatar: "",
+                email: "admin@example.com",
+                phone: "13800138000",
+                roles: ["admin"],
+                permissions: ["*:*:*"],
+              };
+              userStore.setUserInfo(mockUserInfo);
             }
 
-            console.log('🔧 开始生成动态路由...')
-            
+            console.log("🔧 开始生成动态路由...");
+
             // 根据角色过滤路由
-            const accessRoutes = filterAsyncRoutes(asyncRoutes, userStore.roles)
+            const accessRoutes = filterAsyncRoutes(
+              asyncRoutes,
+              userStore.roles
+            );
 
             // 动态添加路由
             accessRoutes.forEach((route) => {
-              console.log('➕ 添加路由:', route.name, route.path)
-              router.addRoute(route as any)
-            })
+              console.log("➕ 添加路由:", route.name, route.path);
+              router.addRoute(route as any);
+            });
 
             // 打印所有已注册路由
-            const allRoutes = router.getRoutes()
-            console.log('📋 所有已注册路由 (', allRoutes.length, '):')
-            allRoutes.forEach(r => {
-              console.log('  -', r.name, '→', r.path)
-            })
+            const allRoutes = router.getRoutes();
+            console.log("📋 所有已注册路由 (", allRoutes.length, "):");
+            allRoutes.forEach((r) => {
+              console.log("  -", r.name, "→", r.path);
+            });
 
             // 保存到 store（只保存标志位，不保存 routes）
-            permissionStore.setRoutes(accessRoutes)
+            permissionStore.setRoutes(accessRoutes);
 
             // 重新跳转，确保 addRoute 已经完成
-            next({ ...to, replace: true })
+            next({ ...to, replace: true });
           } catch (error) {
             // 获取用户信息失败，退出登录
-            console.error('路由守卫错误:', error)
-            userStore.logout()
-            permissionStore.reset()
-            next(`/login?redirect=${to.path}`)
-            NProgress.done()
+            console.error("路由守卫错误:", error);
+            userStore.logout();
+            permissionStore.reset();
+            next(`/login?redirect=${to.path}`);
+            NProgress.done();
           }
         } else {
           // 已生成路由标志，但需要确保路由已注册（处理页面刷新的情况）
-          const currentRoutes = router.getRoutes()
-          const hasAsyncRoutes = currentRoutes.some(r => r.name === 'System')
-          
-          console.log('🔍 检查路由状态:', {
+          const currentRoutes = router.getRoutes();
+          const hasAsyncRoutes = currentRoutes.some((r) => r.name === "System");
+
+          console.log("🔍 检查路由状态:", {
             isRoutesGenerated: permissionStore.isRoutesGenerated,
             hasAsyncRoutes,
-            userRoles: userStore.roles
-          })
-          
+            userRoles: userStore.roles,
+          });
+
           if (!hasAsyncRoutes) {
             // 路由未注册，需要重新生成
-            console.log('⚠️ 路由未注册，重新生成...')
-            
+            console.log("⚠️ 路由未注册，重新生成...");
+
             // 根据角色重新过滤路由
-            const accessRoutes = filterAsyncRoutes(asyncRoutes, userStore.roles)
-            
+            const accessRoutes = filterAsyncRoutes(
+              asyncRoutes,
+              userStore.roles
+            );
+
             // 重新添加路由
             accessRoutes.forEach((route) => {
-              console.log('➕ 重新添加路由:', route.name, route.path)
-              router.addRoute(route as any)
-            })
-            
+              console.log("➕ 重新添加路由:", route.name, route.path);
+              router.addRoute(route as any);
+            });
+
             // 重新跳转
-            next({ ...to, replace: true })
+            next({ ...to, replace: true });
           } else {
-            console.log('✅ 路由已注册，直接访问')
-            next()
+            console.log("✅ 路由已注册，直接访问");
+            next();
           }
         }
       }
@@ -151,16 +160,16 @@ export function setupRouterGuard(router: Router) {
       // 未登录
       if (whiteList.includes(to.path)) {
         // 在白名单中，直接进入
-        next()
+        next();
       } else {
         // 不在白名单中，跳转到登录页
-        next(`/login?redirect=${to.path}`)
-        NProgress.done()
+        next(`/login?redirect=${to.path}`);
+        NProgress.done();
       }
     }
-  })
+  });
 
   router.afterEach(() => {
-    NProgress.done()
-  })
+    NProgress.done();
+  });
 }

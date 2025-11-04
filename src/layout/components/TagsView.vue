@@ -28,7 +28,9 @@
       class="contextmenu"
     >
       <li @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
+        关闭
+      </li>
       <li @click="closeOthersTags">关闭其他</li>
       <li @click="closeAllTags">关闭所有</li>
     </ul>
@@ -36,113 +38,113 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useTagsViewStore, type TagView } from '@/store/modules/tagsView'
+import { ref, computed, watch, nextTick } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useTagsViewStore, type TagView } from "@/store/modules/tagsView";
 
-const route = useRoute()
-const router = useRouter()
-const tagsViewStore = useTagsViewStore()
+const route = useRoute();
+const router = useRouter();
+const tagsViewStore = useTagsViewStore();
 
-const visible = ref(false)
-const top = ref(0)
-const left = ref(0)
-const selectedTag = ref<TagView>({} as TagView)
-const scrollbarRef = ref()
+const visible = ref(false);
+const top = ref(0);
+const left = ref(0);
+const selectedTag = ref<TagView>({} as TagView);
+const scrollbarRef = ref();
 
-const visitedViews = computed(() => tagsViewStore.visitedViews)
+const visitedViews = computed(() => tagsViewStore.visitedViews);
 
 const isActive = (tag: TagView) => {
-  return tag.path === route.path
-}
+  return tag.path === route.path;
+};
 
 const isAffix = (tag: TagView) => {
-  return tag.affix
-}
+  return tag.affix;
+};
 
 const addTags = () => {
   if (route.name) {
-    tagsViewStore.addVisitedView(route)
-    tagsViewStore.addCachedView(route)
+    tagsViewStore.addVisitedView(route);
+    tagsViewStore.addCachedView(route);
   }
-}
+};
 
 const closeSelectedTag = (view: TagView) => {
-  tagsViewStore.delVisitedView(view)
-  tagsViewStore.delCachedView(view)
+  tagsViewStore.delVisitedView(view);
+  tagsViewStore.delCachedView(view);
   if (isActive(view)) {
-    toLastView(tagsViewStore.visitedViews, view)
+    toLastView(tagsViewStore.visitedViews, view);
   }
-}
+};
 
 const closeOthersTags = () => {
-  router.push(selectedTag.value)
-  tagsViewStore.delOthersVisitedViews(selectedTag.value)
-  tagsViewStore.delOthersCachedViews(selectedTag.value)
-}
+  router.push(selectedTag.value);
+  tagsViewStore.delOthersVisitedViews(selectedTag.value);
+  tagsViewStore.delOthersCachedViews(selectedTag.value);
+};
 
 const closeAllTags = () => {
-  tagsViewStore.delAllVisitedViews()
-  tagsViewStore.delAllCachedViews()
-  toLastView(tagsViewStore.visitedViews, selectedTag.value)
-}
+  tagsViewStore.delAllVisitedViews();
+  tagsViewStore.delAllCachedViews();
+  toLastView(tagsViewStore.visitedViews, selectedTag.value);
+};
 
 const refreshSelectedTag = (view: TagView) => {
-  tagsViewStore.delCachedView(view)
+  tagsViewStore.delCachedView(view);
   nextTick(() => {
     router.replace({
-      path: '/redirect' + view.path,
-      query: view.query
-    })
-  })
-}
+      path: "/redirect" + view.path,
+      query: view.query,
+    });
+  });
+};
 
 const toLastView = (visitedViews: TagView[], _view: TagView) => {
-  const latestView = visitedViews.slice(-1)[0]
+  const latestView = visitedViews.slice(-1)[0];
   if (latestView) {
-    router.push(latestView.fullPath)
+    router.push(latestView.fullPath);
   } else {
-    router.push('/')
+    router.push("/");
   }
-}
+};
 
 const openMenu = (tag: TagView, e: MouseEvent) => {
-  const menuMinWidth = 105
-  const offsetLeft = scrollbarRef.value.$el.getBoundingClientRect().left
-  const offsetWidth = scrollbarRef.value.$el.offsetWidth
-  const maxLeft = offsetWidth - menuMinWidth
-  const l = e.clientX - offsetLeft + 15
+  const menuMinWidth = 105;
+  const offsetLeft = scrollbarRef.value.$el.getBoundingClientRect().left;
+  const offsetWidth = scrollbarRef.value.$el.offsetWidth;
+  const maxLeft = offsetWidth - menuMinWidth;
+  const l = e.clientX - offsetLeft + 15;
 
   if (l > maxLeft) {
-    left.value = maxLeft
+    left.value = maxLeft;
   } else {
-    left.value = l
+    left.value = l;
   }
 
-  top.value = e.clientY
-  visible.value = true
-  selectedTag.value = tag
-}
+  top.value = e.clientY;
+  visible.value = true;
+  selectedTag.value = tag;
+};
 
 const closeMenu = () => {
-  visible.value = false
-}
+  visible.value = false;
+};
 
 watch(
   () => route.path,
   () => {
-    addTags()
+    addTags();
   },
   { immediate: true }
-)
+);
 
 watch(visible, (value) => {
   if (value) {
-    document.body.addEventListener('click', closeMenu)
+    document.body.addEventListener("click", closeMenu);
   } else {
-    document.body.removeEventListener('click', closeMenu)
+    document.body.removeEventListener("click", closeMenu);
   }
-})
+});
 </script>
 
 <style scoped lang="scss">
@@ -151,7 +153,9 @@ watch(visible, (value) => {
   width: 100%;
   background: var(--navbar-bg);
   border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.12),
+    0 0 3px 0 rgba(0, 0, 0, 0.04);
   transition: background-color 0.3s;
 
   .tags-view-wrapper {
@@ -191,7 +195,7 @@ watch(visible, (value) => {
         border-color: var(--theme-color);
 
         &::before {
-          content: '';
+          content: "";
           background: #fff;
           display: inline-block;
           width: 8px;

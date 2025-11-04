@@ -18,23 +18,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useAppStore } from '@/store/modules/app'
-import Sidebar from './components/Sidebar/index.vue'
-import Navbar from './components/Navbar.vue'
-import TagsView from './components/TagsView.vue'
-import AppMain from './components/AppMain.vue'
+import { computed } from "vue";
+import { useAppStore } from "@/store/modules/app";
+import Sidebar from "./components/Sidebar/index.vue";
+import Navbar from "./components/Navbar.vue";
+import TagsView from "./components/TagsView.vue";
+import AppMain from "./components/AppMain.vue";
 
-const appStore = useAppStore()
-const device = computed(() => appStore.device)
-const sidebar = computed(() => appStore.sidebar)
+const appStore = useAppStore();
+const device = computed(() => appStore.device);
+const sidebar = computed(() => appStore.sidebar);
 
 const classObj = computed(() => ({
-  mobile: device.value === 'mobile',
+  mobile: device.value === "mobile",
   hideSidebar: !sidebar.value.opened,
   openSidebar: sidebar.value.opened,
-  withoutAnimation: sidebar.value.withoutAnimation
-}))
+  withoutAnimation: sidebar.value.withoutAnimation,
+}));
 </script>
 
 <style scoped lang="scss">
@@ -83,7 +83,7 @@ const classObj = computed(() => ({
     .main-container {
       transition: none !important;
     }
-    
+
     .logo-container h1 {
       transition: none !important;
     }
@@ -97,7 +97,9 @@ const classObj = computed(() => ({
   bottom: 0;
   width: 210px;
   background: var(--sidebar-bg);
-  transition: width 0.2s ease-in-out, background-color 0.3s; // 减少动画时间到 0.2s
+  transition:
+    width 0.2s ease-in-out,
+    background-color 0.3s; // 减少动画时间到 0.2s
   z-index: 1001;
   overflow: hidden;
   will-change: width; // GPU 加速

@@ -19,7 +19,7 @@
   --navbar-text: #333333;
   --scrollbar-thumb: #dcdfe6;
   --scrollbar-track: #f5f7fa;
-  
+
   /* 主题色 - 默认蓝色 */
   --theme-color: #409eff;
   --theme-color-light: #79bbff;
@@ -28,7 +28,7 @@
 }
 
 /* 深色主题 */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --bg-color: #1a1a1a;
   --bg-color-page: #2d2d2d;
   --text-color: #e0e0e0;
@@ -44,7 +44,7 @@
 
 /* 主题色方案 */
 /* 蓝色主题 */
-[data-theme-color='blue'] {
+[data-theme-color="blue"] {
   --theme-color: #409eff !important;
   --theme-color-light: #79bbff !important;
   --theme-color-lighter: #a0cfff !important;
@@ -52,7 +52,7 @@
 }
 
 /* 绿色主题 */
-[data-theme-color='green'] {
+[data-theme-color="green"] {
   --theme-color: #67c23a !important;
   --theme-color-light: #95d475 !important;
   --theme-color-lighter: #b3e19d !important;
@@ -60,7 +60,7 @@
 }
 
 /* 紫色主题 */
-[data-theme-color='purple'] {
+[data-theme-color="purple"] {
   --theme-color: #9c27b0 !important;
   --theme-color-light: #ba68c8 !important;
   --theme-color-lighter: #ce93d8 !important;
@@ -68,7 +68,7 @@
 }
 
 /* 橙色主题 */
-[data-theme-color='orange'] {
+[data-theme-color="orange"] {
   --theme-color: #ff9800 !important;
   --theme-color-light: #ffb74d !important;
   --theme-color-lighter: #ffcc80 !important;
@@ -76,7 +76,7 @@
 }
 
 /* 红色主题 */
-[data-theme-color='red'] {
+[data-theme-color="red"] {
   --theme-color: #f56c6c !important;
   --theme-color-light: #f89898 !important;
   --theme-color-lighter: #fab6b6 !important;
@@ -88,14 +88,17 @@ body,
 #app {
   width: 100%;
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    'Noto Color Emoji';
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 a {
@@ -246,7 +249,7 @@ ol {
 
 .clearfix {
   &::after {
-    content: '';
+    content: "";
     display: table;
     clear: both;
   }

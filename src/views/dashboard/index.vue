@@ -76,7 +76,10 @@
           </template>
           <div class="welcome-content">
             <h2>欢迎使用后台管理系统！</h2>
-            <p>这是一个基于 Vue 3 + TypeScript + Element Plus 构建的后台管理系统模板。</p>
+            <p>
+              这是一个基于 Vue 3 + TypeScript + Element Plus
+              构建的后台管理系统模板。
+            </p>
             <h3>功能特性：</h3>
             <ul>
               <li>✅ 登录/登出功能</li>
@@ -91,7 +94,10 @@
             <h3>如何新增页面：</h3>
             <ol>
               <li>在 <code>src/views</code> 目录下创建新的 Vue 文件</li>
-              <li>在 <code>src/router/routes.ts</code> 的 <code>asyncRoutes</code> 中添加路由配置</li>
+              <li>
+                在 <code>src/router/routes.ts</code> 的
+                <code>asyncRoutes</code> 中添加路由配置
+              </li>
               <li>根据需要设置路由的 meta 信息（title、icon、roles 等）</li>
               <li>刷新页面，新页面会自动显示在侧边栏菜单中</li>
             </ol>
@@ -121,19 +127,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       &.icon-blue {
         background: var(--theme-color);
       }
-      
+
       &.icon-green {
         background: #67c23a;
       }
-      
+
       &.icon-orange {
         background: #e6a23c;
       }
-      
+
       &.icon-red {
         background: #f56c6c;
       }
@@ -174,7 +180,8 @@
       margin: 20px 0 10px;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 20px;
 
       li {
@@ -189,7 +196,7 @@
       padding: 2px 8px;
       border-radius: 4px;
       color: var(--theme-color);
-      font-family: 'Courier New', monospace;
+      font-family: "Courier New", monospace;
     }
   }
 }

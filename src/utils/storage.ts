@@ -2,53 +2,53 @@
  * 本地存储工具
  */
 
-const TOKEN_KEY = 'ACCESS_TOKEN'
-const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN'
-const USER_INFO_KEY = 'USER_INFO'
+const TOKEN_KEY = "ACCESS_TOKEN";
+const REFRESH_TOKEN_KEY = "REFRESH_TOKEN";
+const USER_INFO_KEY = "USER_INFO";
 
 // Token 管理
 export const getToken = (): string | null => {
-  return localStorage.getItem(TOKEN_KEY)
-}
+  return localStorage.getItem(TOKEN_KEY);
+};
 
 export const setToken = (token: string): void => {
-  localStorage.setItem(TOKEN_KEY, token)
-}
+  localStorage.setItem(TOKEN_KEY, token);
+};
 
 export const removeToken = (): void => {
-  localStorage.removeItem(TOKEN_KEY)
-}
+  localStorage.removeItem(TOKEN_KEY);
+};
 
 // Refresh Token 管理
 export const getRefreshToken = (): string | null => {
-  return localStorage.getItem(REFRESH_TOKEN_KEY)
-}
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+};
 
 export const setRefreshToken = (refreshToken: string): void => {
-  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
-}
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+};
 
 export const removeRefreshToken = (): void => {
-  localStorage.removeItem(REFRESH_TOKEN_KEY)
-}
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+};
 
 // 用户信息管理
 export const getUserInfo = (): any => {
-  const userInfo = localStorage.getItem(USER_INFO_KEY)
-  return userInfo ? JSON.parse(userInfo) : null
-}
+  const userInfo = localStorage.getItem(USER_INFO_KEY);
+  return userInfo ? JSON.parse(userInfo) : null;
+};
 
 export const setUserInfo = (userInfo: any): void => {
-  localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo))
-}
+  localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo));
+};
 
 export const removeUserInfo = (): void => {
-  localStorage.removeItem(USER_INFO_KEY)
-}
+  localStorage.removeItem(USER_INFO_KEY);
+};
 
 // 清除所有登录信息
 export const clearAuth = (): void => {
-  removeToken()
-  removeRefreshToken()
-  removeUserInfo()
-}
+  removeToken();
+  removeRefreshToken();
+  removeUserInfo();
+};

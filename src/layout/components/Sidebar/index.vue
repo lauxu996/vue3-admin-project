@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar">
-    <div class="logo-container" :class="{ 'collapse': !sidebar.opened }">
+    <div class="logo-container" :class="{ collapse: !sidebar.opened }">
       <h1 v-if="sidebar.opened">远程诊断平台</h1>
       <h1 v-else class="logo-text-collapse"></h1>
     </div>
-    
+
     <el-scrollbar>
       <el-menu
         :default-active="activeMenu"
@@ -29,49 +29,49 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useAppStore } from '@/store/modules/app'
-import { usePermissionStore } from '@/store/modules/permission'
-import SidebarItem from './SidebarItem.vue'
-import { constantRoutes } from '@/router/routes'
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useAppStore } from "@/store/modules/app";
+import { usePermissionStore } from "@/store/modules/permission";
+import SidebarItem from "./SidebarItem.vue";
+import { constantRoutes } from "@/router/routes";
 
-const route = useRoute()
-const appStore = useAppStore()
-const permissionStore = usePermissionStore()
+const route = useRoute();
+const appStore = useAppStore();
+const permissionStore = usePermissionStore();
 
-const sidebar = computed(() => appStore.sidebar)
+const sidebar = computed(() => appStore.sidebar);
 const themeColor = computed(() => {
   // 获取当前主题色对应的颜色值
   const colorMap: Record<string, string> = {
-    blue: '#409eff',
-    green: '#67c23a',
-    purple: '#9c27b0',
-    orange: '#ff9800',
-    red: '#f56c6c'
-  }
-  return colorMap[appStore.themeColor] || '#409eff'
-})
+    blue: "#409eff",
+    green: "#67c23a",
+    purple: "#9c27b0",
+    orange: "#ff9800",
+    red: "#f56c6c",
+  };
+  return colorMap[appStore.themeColor] || "#409eff";
+});
 
 // 合并常驻路由和动态路由，过滤掉隐藏的路由
 const permissionRoutes = computed(() => {
   // 过滤出需要在侧边栏显示的常驻路由
-  const visibleConstantRoutes = constantRoutes.filter(route => {
+  const visibleConstantRoutes = constantRoutes.filter((route) => {
     // 过滤掉 hidden 为 true 的路由
-    return !route.meta?.hidden
-  })
-  
+    return !route.meta?.hidden;
+  });
+
   // 合并常驻路由和动态路由
-  return [...visibleConstantRoutes, ...permissionStore.routes]
-})
+  return [...visibleConstantRoutes, ...permissionStore.routes];
+});
 
 const activeMenu = computed(() => {
-  const { meta, path } = route
+  const { meta, path } = route;
   if (meta?.activeMenu) {
-    return meta.activeMenu
+    return meta.activeMenu;
   }
-  return path
-})
+  return path;
+});
 </script>
 
 <style scoped lang="scss">
@@ -102,7 +102,7 @@ const activeMenu = computed(() => {
       h1 {
         opacity: 0.9;
       }
-      
+
       .logo-text-collapse {
         font-size: 16px;
       }
